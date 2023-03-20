@@ -1,4 +1,7 @@
 #On importe la bliblotheque
+from dotenv import load_dotenv
+import os #Recupérer les données environnement os.getenv("TOKEN")
+load_dotenv()#Par défaut ça reconnait automatiquement .env et loader les infos dans les varaibles d'environnements
 import discord
 
 intents = discord.Intents.default()
@@ -12,12 +15,19 @@ client=discord.Client(intents=intents)
 async def on_ready(): #La fonction a le nom de l'evnement
     print("Le bot est prêt") # Execute quand tout est prêt
 
-@client.event
-async def on_message(message):
-    if message.content.lower()=='ping':
-    # On va faire parler le bot on doit savoir dans quel salon on se trouve
-        await message.channel.send("pong")
+"""@client.event
+async def on_message(message:discord.Message):
+    if message.content.startswith("!del"):
+        number=int(message.content.split()[1])
+        number=int(message.content.split()[1])
+        #Récupérer les numbers derniers messages
+        messages=message.channel.history(limit=number+1)
 
+
+        #Maintenant supprimer
+        for m in messages:
+            await m.delete()
+"""
 @client.event
 async def on_member_join(member:discord.Member):
     #On va récupérer le salon principal afin de lui souhaiter bonne arrivé
@@ -26,4 +36,4 @@ async def on_member_join(member:discord.Member):
 
 
 #Pour lancer ce client
-client.run(token="MTA4Njk4NjQ1NzQ1OTIwNDE3Ng.GVDdIO.0JSVkOq3qAJdUry8K3ifw1OQOLmGpxfCtT-olY")#On prend le token du bot
+client.run(token=os.getenv("TOKEN"))#On prend le token du bot
